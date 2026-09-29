@@ -151,112 +151,210 @@
   padding-block: var(--rail);
 }
 
-/* ---- project film strips (scrubbed by scroll) ---- */
-.filmstrip-view {
-  overflow: hidden;
-}
-.filmstrip {
-  display: flex;
-  width: max-content;
-  gap: 14px;
-  padding-inline: 14px;
-  will-change: transform;
-}
-.filmstrip-frame {
+/* ---- vertical 35mm film (projects + certificates) ---- */
+.film-rails-v {
+  --rail: 34px;
   position: relative;
-  height: clamp(210px, 34vw, 420px);
+  padding-inline: var(--rail);
+  background-color: #17130f;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 34 30'><rect x='11' y='9' width='12' height='13' rx='2.5' fill='%23e6d8bf'/></svg>"), url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 34 30'><rect x='11' y='9' width='12' height='13' rx='2.5' fill='%23e6d8bf'/></svg>");
+  background-repeat: repeat-y;
+  background-size: var(--rail) 30px;
+  background-position: left top, right top;
+  border-radius: 6px;
+  box-shadow: 0 50px 90px -40px rgb(0 0 0 / 0.85), inset 0 0 0 1px rgb(255 255 255 / 0.03);
+}
+@media (max-width: 767px) {
+  .film-rails-v { --rail: 24px; background-size: var(--rail) 24px; }
+}
+.vstrip {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  padding-block: 18px 28px;
+}
+.vstrip-leader {
+  text-align: center;
+  font: 600 9px/1 var(--font-sans);
+  letter-spacing: 0.4em;
+  color: #c8914b;
+  opacity: 0.8;
+}
+.vframe {
+  position: relative;
+  opacity: 0.38;
+  filter: saturate(0.4) brightness(0.8);
+  transition: opacity 0.8s, filter 0.8s;
+}
+.vframe.is-lit {
+  opacity: 1;
+  filter: none;
+}
+.vframe-media {
+  position: relative;
+  display: block;
+  width: 100%;
   overflow: hidden;
   border-radius: 3px;
   background: #0f0c0a;
   cursor: zoom-in;
+  transition: box-shadow 0.8s;
 }
-.filmstrip-frame img,
-.filmstrip-frame video {
+.vframe.is-lit .vframe-media {
+  box-shadow: 0 0 0 1px rgb(201 164 92 / 0.35), 0 0 70px -12px rgb(255 226 170 / 0.28);
+}
+.vframe-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
   height: 100%;
-  width: auto;
-  max-width: none;
+  object-fit: cover;
+  filter: blur(26px) brightness(0.45) saturate(1.2);
+  transform: scale(1.25);
+}
+.vframe-fg {
+  position: relative;
   display: block;
-  transition: transform 1s var(--ease-out-expo), filter 0.6s;
-  filter: saturate(0.92);
+  width: 100%;
+  height: auto;
+  max-height: 72svh;
+  object-fit: contain;
 }
-.filmstrip-frame:hover img,
-.filmstrip-frame:hover video {
-  transform: scale(1.04);
-  filter: saturate(1.05);
-}
-.filmstrip-caption {
+.vframe-caption {
   position: absolute;
   left: 0;
   right: 0;
   bottom: 0;
-  padding: 28px 14px 10px;
-  background: linear-gradient(transparent, rgb(0 0 0 / 0.7));
+  padding: 36px 16px 12px;
+  background: linear-gradient(transparent, rgb(0 0 0 / 0.75));
   font-size: 0.6875rem;
   letter-spacing: 0.18em;
   text-transform: uppercase;
   text-align: left;
   color: var(--color-bone);
 }
+.vframe-edge,
+.vframe-num {
+  position: absolute;
+  font: 600 8px/1 var(--font-sans);
+  letter-spacing: 0.32em;
+  white-space: nowrap;
+  color: #c8914b;
+  opacity: 0.8;
+}
+.vframe-edge {
+  top: 50%;
+  left: calc(var(--rail) * -0.16);
+  transform: translate(-50%, -50%) rotate(-90deg);
+}
+.vframe-num {
+  top: 14px;
+  right: calc(var(--rail) * -0.16);
+  transform: translateX(50%) rotate(90deg);
+  letter-spacing: 0.08em;
+}
 
-/* ---- certificates: pinned projector, one frame at a time ---- */
-.cert-view {
-  --frame-h: min(46svh, 52vw);
-  --frame-w: calc(var(--frame-h) * 1.42);
-  position: relative;
-  width: 100vw;
-  margin-left: calc(50% - 50vw);
-  overflow: hidden;
+/* ---- certificates: vertical projector ---- */
+.cert-v-view {
+  --rail: 34px;
+  --fw: min(44vw, 56svh * 1.3);
+  --fh: calc(var(--fw) / 1.3);
+  --gap: 24px;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: max(2.5rem, 5vw);
+  width: calc(var(--fw) + 2 * var(--rail));
+  -webkit-mask-image: linear-gradient(transparent, #000 20%, #000 80%, transparent);
+  mask-image: linear-gradient(transparent, #000 20%, #000 80%, transparent);
 }
 @media (max-width: 767px) {
-  .cert-view {
-    --frame-w: 84vw;
-    --frame-h: calc(var(--frame-w) / 1.42);
-  }
-  .cert-view .film-rails {
-    --rail: 18px;
+  .cert-v-view {
+    --rail: 24px;
+    --fw: min(76vw, 34svh * 1.3);
+    top: 150px;
+    bottom: 230px;
+    right: 50%;
+    transform: translateX(50%);
   }
 }
-.cert-strip {
-  display: flex;
-  width: max-content;
-  gap: 18px;
-  /* first frame starts centred in the gate */
-  margin-left: calc(50vw - var(--frame-w) / 2 - 18px);
-  padding-inline: 18px;
+.cert-v-strip {
+  position: absolute;
+  left: 0;
+  right: 0;
+  /* first frame starts centred in the gate; long leader above and below */
+  top: calc(50% - var(--fh) / 2 - var(--gap) / 2 - 60svh);
+  padding-block: 60svh;
   will-change: transform;
 }
-.cert-frame {
+.cert-v-frame {
   position: relative;
-  flex: none;
-  width: var(--frame-w);
-  height: var(--frame-h);
-  border-radius: 3px;
-  background: radial-gradient(ellipse at center, #2a241e, #120f0c);
-  overflow: hidden;
-  cursor: zoom-in;
-  opacity: 0.35;
-  transform: scale(0.94);
-  transition: opacity 0.5s, transform 0.6s var(--ease-out-expo);
+  height: calc(var(--fh) + var(--gap));
+  padding-block: calc(var(--gap) / 2);
 }
-.cert-frame.is-active {
+.cert-v-media {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  border-radius: 3px;
+  background: #0f0c0a;
+  cursor: zoom-in;
+  opacity: 0.3;
+  transform: scale(0.9);
+  transition: opacity 0.5s, transform 0.7s var(--ease-out-expo);
+}
+.cert-v-frame.is-active .cert-v-media {
   opacity: 1;
   transform: scale(1);
 }
-.cert-frame img {
+.cert-v-img {
+  position: relative;
   width: 100%;
   height: 100%;
   object-fit: contain;
-  padding: 3%;
-  filter: drop-shadow(0 10px 20px rgb(0 0 0 / 0.5));
+  padding: 4%;
+  filter: drop-shadow(0 14px 24px rgb(0 0 0 / 0.55));
 }
-.cert-edge {
+.cert-gate {
   position: absolute;
-  left: 10px;
-  bottom: 6px;
-  font: 600 9px/1 var(--font-sans);
-  letter-spacing: 0.3em;
-  color: #c8914b;
-  opacity: 0.8;
+  left: calc(var(--rail) - 10px);
+  right: calc(var(--rail) - 10px);
+  top: 50%;
+  height: calc(var(--fh) + 8px);
+  transform: translateY(-50%);
+  border: 1px solid rgb(201 164 92 / 0.35);
+  border-radius: 6px;
+  box-shadow: 0 0 90px -20px rgb(255 226 170 / 0.35), inset 0 0 50px -20px rgb(255 226 170 / 0.25);
+  pointer-events: none;
+}
+.cert-gate i {
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  border-color: var(--color-gold);
+  border-style: solid;
+  border-width: 0;
+}
+.cert-gate i:nth-child(1) { top: -1px; left: -1px; border-top-width: 2px; border-left-width: 2px; }
+.cert-gate i:nth-child(2) { top: -1px; right: -1px; border-top-width: 2px; border-right-width: 2px; }
+.cert-gate i:nth-child(3) { bottom: -1px; left: -1px; border-bottom-width: 2px; border-left-width: 2px; }
+.cert-gate i:nth-child(4) { bottom: -1px; right: -1px; border-bottom-width: 2px; border-right-width: 2px; }
+.cert-beam {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 30% 45% at 72% 50%, rgb(255 226 170 / 0.09), transparent 70%),
+    radial-gradient(ellipse 60% 80% at 100% 50%, rgb(201 164 92 / 0.05), transparent 70%);
+  pointer-events: none;
+}
+@media (max-width: 767px) {
+  .cert-beam { background: radial-gradient(ellipse 70% 30% at 50% 45%, rgb(255 226 170 / 0.09), transparent 70%); }
+}
+@keyframes certin {
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: none; }
 }
 
 /* ---- photo print used in About ---- */

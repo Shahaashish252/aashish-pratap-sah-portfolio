@@ -18,9 +18,12 @@ export function Projects() {
         {projects.map((p, i) => {
           const cert = p.award && certificates.find((c) => c.id === p.award!.certificate)
           return (
-            <article key={p.id} aria-labelledby={`project-${p.id}`} className="flex flex-col gap-12">
-              <div className="mx-auto grid w-full max-w-[1600px] gap-10 md:grid-cols-12">
-                <header className="md:col-span-5">
+            <article
+              key={p.id}
+              aria-labelledby={`project-${p.id}`}
+              className="mx-auto grid w-full max-w-[1600px] gap-12 md:grid-cols-12 md:gap-x-16"
+            >
+                <header className={`md:sticky md:top-28 md:col-span-5 md:self-start ${i % 2 ? 'md:col-start-8' : ''}`}>
                   <p data-reveal className="eyebrow mb-4 flex gap-4 text-mute">
                     <span className="tabular-nums text-gold">{String(i + 1).padStart(2, '0')}</span>
                     <span>{p.year}</span>
@@ -45,15 +48,12 @@ export function Projects() {
                       </span>
                     </button>
                   )}
-                </header>
-
-                <div className="md:col-span-6 md:col-start-7">
-                  <p data-reveal className="text-[1.0625rem] leading-relaxed text-bone/75">
+                  <p data-reveal className="mt-8 text-[1.0625rem] leading-relaxed text-bone/75">
                     {p.description}
                   </p>
                   <ul className="mt-8 flex flex-col border-t border-line">
                     {p.highlights.map((h) => (
-                      <li key={h} data-reveal className="flex gap-4 border-b border-line py-3 text-[0.9375rem] text-bone/70">
+                      <li key={h} data-reveal className="flex gap-4 border-b border-line py-2.5 text-[0.875rem] text-bone/70">
                         <span className="mt-2 size-1.5 shrink-0 rounded-full bg-gold" />
                         {h}
                       </li>
@@ -66,10 +66,11 @@ export function Projects() {
                       </li>
                     ))}
                   </ul>
-                </div>
-              </div>
+                </header>
 
-              <FilmStrip frames={p.frames} label={p.title} />
+                <div className={`md:col-span-7 ${i % 2 ? 'md:col-start-1 md:row-start-1' : 'md:col-start-6'}`}>
+                  <FilmStrip frames={p.frames} label={p.title} />
+                </div>
             </article>
           )
         })}
