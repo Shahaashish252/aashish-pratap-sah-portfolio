@@ -109,6 +109,7 @@ export const projects: Project[] = [
     stack: ['ESP32-CAM', 'ESP8266', 'Arduino Uno', 'NPK sensor', 'Servo arm', 'L298N', 'Relay + pump'],
     award: { label: 'Showcased at Xavier Level Up Expo 2025', certificate: 'level-up-expo' },
     frames: [
+      { src: '/work/afis-exploded.webp', alt: 'Exploded diagram of AFIS with all eight component layers labelled', caption: 'Exploded diagram' },
       { src: '/work/afis-robot-expo.webp', alt: 'AFIS robot car driving on the expo floor', caption: 'On the expo floor' },
       { src: '/work/afis-arm-closeup.webp', alt: 'Close-up of the AFIS robotic arm over a plant pot', caption: 'Arm over the plant' },
       { src: '/work/afis-team.webp', alt: 'Aashish and team beside the AFIS robot at Xavier Level Up Expo', caption: 'Team at Level Up Expo' },

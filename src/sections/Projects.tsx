@@ -1,8 +1,10 @@
+import { Fragment } from 'react'
 import { Award } from 'lucide-react'
 import { certificates, projects } from '../config/site'
 import { FilmStrip } from '../components/FilmStrip'
 import { openLightbox } from '../components/Lightbox'
 import { SectionLabel } from './SectionLabel'
+import { AfisExploded } from './afis/AfisExploded'
 
 export function Projects() {
   return (
@@ -18,8 +20,8 @@ export function Projects() {
         {projects.map((p, i) => {
           const cert = p.award && certificates.find((c) => c.id === p.award!.certificate)
           return (
+            <Fragment key={p.id}>
             <article
-              key={p.id}
               aria-labelledby={`project-${p.id}`}
               className="mx-auto grid w-full max-w-[1600px] gap-12 md:grid-cols-12 md:gap-x-16"
             >
@@ -72,6 +74,12 @@ export function Projects() {
                   <FilmStrip frames={p.frames} label={p.title} />
                 </div>
             </article>
+            {p.id === 'afis' && (
+              <div className="-mx-5 md:-mx-10">
+                <AfisExploded />
+              </div>
+            )}
+            </Fragment>
           )
         })}
       </div>

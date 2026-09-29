@@ -357,6 +357,80 @@
   to { opacity: 1; transform: none; }
 }
 
+/* ---- AFIS exploded view ---- */
+.afx-beam {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 40% 50% at 64% 48%, rgb(255 226 170 / 0.07), transparent 70%),
+    linear-gradient(rgb(236 232 225 / 0.035) 1px, transparent 1px) 0 0 / 48px 48px,
+    linear-gradient(90deg, rgb(236 232 225 / 0.035) 1px, transparent 1px) 0 0 / 48px 48px;
+  -webkit-mask-image: radial-gradient(ellipse 70% 70% at 60% 50%, #000, transparent);
+  mask-image: radial-gradient(ellipse 70% 70% at 60% 50%, #000, transparent);
+  pointer-events: none;
+}
+.afx-layer {
+  transition: opacity 0.5s, filter 0.5s;
+}
+.afx-layer.is-dim {
+  opacity: 0.42;
+}
+.afx-layer.is-active {
+  filter: drop-shadow(0 0 10px rgb(232 190 110 / 0.55));
+}
+.afx-leader {
+  stroke: rgb(236 232 225 / 0.35);
+  stroke-width: 1;
+  stroke-dasharray: 3 4;
+}
+.afx-dot {
+  fill: var(--color-gold);
+}
+.afx-badge {
+  fill: var(--color-ink);
+  stroke: rgb(236 232 225 / 0.4);
+  stroke-width: 1;
+}
+.afx-num {
+  font: 600 10px/1 var(--font-sans);
+  fill: var(--color-bone);
+  letter-spacing: 0.05em;
+}
+.afx-t1 {
+  font: 400 22px/1 var(--font-display);
+  fill: var(--color-bone);
+}
+.afx-t2 {
+  font: 500 9.5px/1 var(--font-sans);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  fill: var(--color-mute);
+}
+.afx-callout {
+  transition: opacity 0.3s;
+}
+.afx-callout.is-active .afx-badge {
+  fill: var(--color-gold);
+  stroke: var(--color-gold);
+}
+.afx-callout.is-active .afx-num {
+  fill: var(--color-ink);
+}
+.afx-callout.is-active .afx-leader {
+  stroke: var(--color-gold);
+  stroke-dasharray: none;
+}
+.afx-callout.is-active .afx-t1 {
+  fill: var(--color-gold);
+}
+@media (max-width: 767px) {
+  .afx-label-text { display: none; }
+  .afx-badge { r: 22px; }
+  .afx-num { font-size: 17px; transform: translateY(2px); transform-box: fill-box; }
+  .afx-leader { stroke-width: 2; }
+  .afx-dot { r: 6px; }
+}
+
 /* ---- photo print used in About ---- */
 .print-still {
   padding: 14px 14px 18px;
